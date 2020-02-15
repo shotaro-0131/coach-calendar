@@ -1,0 +1,15 @@
+#user-info{
+    text-align: right;
+    background-color:#cccc66;
+    display: inline;
+}
+
+header{
+    /* width: 100px; */
+    height: 50px;
+    text-align: right;
+    background-color:blue;
+}
+header ul li {
+    display: inline;
+}
