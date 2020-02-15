@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.forms import(
     AuthenticationForm
 )
- 
+
 class LoginForm(AuthenticationForm):
     #ログオンフォームの定義
     def __init__(self, *args, **kwargs):
@@ -11,7 +11,7 @@ class LoginForm(AuthenticationForm):
         for fields in self.fields.values():
             fields.widget.attrs['class'] = 'form-control'
             fields.widget.attrs['placeholder']= fields.label
-            
+
 class SignUpForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput)
     enter_password = forms.CharField(widget=forms.PasswordInput)

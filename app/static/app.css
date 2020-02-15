@@ -13,3 +13,29 @@ header{
 header ul li {
     display: inline;
 }
+
+.day{
+    /* width: 50px;
+    height: 50px;
+    margin: 0px; */
+    
+}
+
+.absentday {
+    /* color:blue; */
+    /* background-color:blue; */
+}
+/* .absentday{
+    font-size: 1.4em;
+
+    font-weight: bold;
+
+    padding: 10px 30px;
+
+    background-color: #248;
+
+    color: #fff;
+
+    border-style: none;
+} */
+    

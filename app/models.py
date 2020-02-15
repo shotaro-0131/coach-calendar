@@ -13,6 +13,7 @@ class User(models.Model):
 class Plan(models.Model):
     """予定"""
     people = models.ForeignKey(User, verbose_name='コーチ', related_name='plans', on_delete=models.CASCADE)
-    absentDate = models.CharField('出社日', max_length=15)
+    year = models.IntegerField('年')
+    month = models.IntegerField('月')
+    day = models.IntegerField('日')
     isRow = models.BooleanField('乗艇日', default=False)
-    

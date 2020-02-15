@@ -18,15 +18,18 @@
             <tr>
                 {% for day in week %}
                     {% if now == day %}
-                        <td class="table-success">
+                        <td class="day table-success">
                             {% else %}
-                        <td>
+                        <td class="day" >
                     {% endif %}
 
                 {% if month_current.month != day.month %}
                     {{ day | date:"m/d" }}
                 {% else %}
                     {{ day.day }}
+                    <ul class="name_list">
+                    </ul>
+                    <!-- <span>{{ view.request.user.username }}</span> -->
                 {% endif %}
 
                 </td>
@@ -35,4 +38,29 @@
         {% endfor %}
         </tbody>
     </table>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+    <script>
+        
+        const hoge = document.getElementsByClassName('day');
+
+            for (var i = 0; i < hoge.length; i++) {
+                $(".day").eq(i).click(function() {
+                    if(!$(this).hasClass("attend")){
+                        $(this ,"ul").append('<li>追加されました</li>');
+                        $(this).addClass("attend")
+                    }
+                    else{
+                        $(this ,"ul").children().remove();
+                        $(this).removeClass("attend")
+                    }
+                })
+
+            }
+ 
+
+    </script>
+    
 {% endblock %}
+

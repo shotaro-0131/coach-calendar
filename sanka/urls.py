@@ -18,6 +18,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from app import views
 from django.conf.urls import include, url
+from django.views.generic import TemplateView
 
 app_name = 'app'
 
@@ -26,6 +27,8 @@ urlpatterns = [
     path('logout/', views.Logout.as_view(), name='logout'),
     path('admin/', admin.site.urls),
     path('', include('user_sessions.urls', 'user_sessions')),
+    url(r'^myapp/(?P<mode_name>\w+)/$', TemplateView.as_view(template_name='month.html'),
+        name='myapp-index'),
     # path('', views.index, name='index'),
     # path('<int:question_id>/', views.detail, name='detail'),
     # path('<int:question_id>/results/', views.results, name='results'),
