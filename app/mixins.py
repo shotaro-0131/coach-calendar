@@ -68,3 +68,30 @@ class MonthCalendarMixin(BaseCalendarMixin):
             'week_names': self.get_week_names(),
         }
         return calendar_data
+
+class PlanMixin:
+    def get_plan(self, calendar_context):
+        all_entries = Plan.objects.filter(year=calendar_context["month_current"].strftime("%Y")
+        ).filter(month=calendar_context["month_current"].strftime("%m")).order_by("day")
+        
+        return self.to_dict(all_entries)
+
+    def to_dict(self, entries):
+        # plan_data = {
+        #     'menu': list(entries.values_list('menu', flat=True)),
+        #     'plan_day': list(entries.values_list('day', flat=True)),
+        # }
+        p = []
+        for e in entries:
+            p.append({"menu":e.menu, "day":e.day})
+        plan_data = {
+            'plan': p,
+        }
+        return plan_data
+
+class AdminCalendarMixin(MonthCalendarMixin):
+    
+    def create_menu(self):
+        self.setup_calendar()
+        p = Plan(year=2020,month=1, day=1, menu='乗艇', isRow=True)
+        p.save()

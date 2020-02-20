@@ -1,8 +1,13 @@
 
 {% extends 'fand.html' %}
 {% block content %}
+<form name='form' onsubmit="sendList()" method="POST" action="{% url 'month' %}">
+    <input type="hidden" name="hidden1" value="">
 <a href="{% url 'month' month_previous.year month_previous.month %}">前月</a>
 {{ month_current | date:"Y年m月" }}
+{{ month_corrent.month }}
+{{ form.as_p |json_script:"hello-data" }}
+
 <a href="{% url 'month' month_next.year month_next.month %}">次月</a>
 
     <table class="table">
@@ -27,8 +32,11 @@
                     {{ day | date:"m/d" }}
                 {% else %}
                     {{ day.day }}
-                    <ul class="name_list">
-                    </ul>
+                    {% for p in plan %}
+                        {% if p.day == day.day %}
+                            <div class="menu">{{p.menu}}</div>
+                        {% endif %}
+                    {% endfor %}
                     <!-- <span>{{ view.request.user.username }}</span> -->
                 {% endif %}
 
@@ -38,27 +46,68 @@
         {% endfor %}
         </tbody>
     </table>
+    <input type="submit" id='send' value='{{ month_current | date:"m月の" }}予定を送る'>
+    {% csrf_token %}
+</form>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>
     <script>
+
         
         const hoge = document.getElementsByClassName('day');
+        var value = JSON.parse(document.getElementById('hello-data').textContent);
 
             for (var i = 0; i < hoge.length; i++) {
                 $(".day").eq(i).click(function() {
                     if(!$(this).hasClass("attend")){
-                        $(this ,"ul").append('<li>追加されました</li>');
+                        $(this ,"ul").append('<div class="user">'+value+'</div>');
+                        $(this ,"ul").append('<div class="remove">削除</div>');
                         $(this).addClass("attend")
-                    }
+
+                        // var h = document.getElementsByClassName('remove');
+                        // $(".day").click(function() {
+                        $(this ,"ul").find(".remove").click(function(e) {
+                            e.stopPropagation();
+                            console.log($(this).parent('td'))
+                            console.log($(this).parent().find('.attend'))
+                            $(this).parent('td').removeClass("attend")
+                            $(this).parent('td').children().remove();
+                        })
+                }
                     else{
-                        $(this ,"ul").children().remove();
-                        $(this).removeClass("attend")
+                        // $(".remove").click(function() {
+                        //         $(this).parent().removeClass("attend")
+                        //         $(this).parent().children().remove();
+                
+
+                        //     })
+                        // var h = document.getElementsByClassName('remove');
+                        // $(".day").click(function() {
+                        //     $(".remove").each(function() {
+                        //         $(this).parent().removeClass("attend")
+                        //         $(this).parent().children().remove();
+                
+
+                        //     })})
+                        // $(this ,"ul").children().remove();
+                        // $(this).removeClass("attend")
+                    
                     }
                 })
 
             }
- 
+        function setListener(){
+
+        }
+        function sendList(){
+
+            const a = "aa";
+
+            document.form.hidden1.value = a;
+
+            console.log(document.form1.hidden1.value); //赤,黄,青
+        }
 
     </script>
     

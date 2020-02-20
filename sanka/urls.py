@@ -23,13 +23,14 @@ from django.views.generic import TemplateView
 app_name = 'app'
 
 urlpatterns = [
+    path('', include('user_sessions.urls', 'user_sessions')),
     path('login/', views.Login.as_view(), name='login'),
     path('logout/', views.Logout.as_view(), name='logout'),
+    path('plan/', views.Planing.as_view(), name='plan'),
     path('admin/', admin.site.urls),
-    path('', include('user_sessions.urls', 'user_sessions')),
-    url(r'^myapp/(?P<mode_name>\w+)/$', TemplateView.as_view(template_name='month.html'),
-        name='myapp-index'),
-    # path('', views.index, name='index'),
+    # url(r'^myapp/(?P<mode_name>\w+)/$', TemplateView.as_view(template_name='month.html'),
+    #     name='myapp-index'),
+    path('index/', views.index, name='index'),
     # path('<int:question_id>/', views.detail, name='detail'),
     # path('<int:question_id>/results/', views.results, name='results'),
     path('month/', views.MonthCalendar.as_view(), name='month'),

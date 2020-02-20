@@ -12,8 +12,12 @@ class User(models.Model):
 
 class Plan(models.Model):
     """予定"""
-    people = models.ForeignKey(User, verbose_name='コーチ', related_name='plans', on_delete=models.CASCADE)
-    year = models.IntegerField('年')
-    month = models.IntegerField('月')
-    day = models.IntegerField('日')
+    # people = models.ForeignKey(User, verbose_name='コーチ', related_name='plans', on_delete=models.CASCADE)
+    menu = models.CharField('メニュー', max_length=100)
+    year = models.IntegerField('年', default=0)
+    month = models.IntegerField('月', default=0)
+    day = models.IntegerField('日', default=0)
     isRow = models.BooleanField('乗艇日', default=False)
+
+    def get_time(self):
+        return int(str(year)+str(month)+str(day))

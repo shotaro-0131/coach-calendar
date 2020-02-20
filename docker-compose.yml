@@ -1,10 +1,49 @@
 version: '3'  # Docker Composeのバージョン
 services:
+  mysql:
+    container_name: sample-mysql
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    image: mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: 'calendar'
+      MYSQL_USER: 'murata'
+      MYSQL_USER: 'P@ssw0rd'
+      TZ: "Asia/Tokyo"
+    restart: 'always'
+    expose:
+      - '3306'
+    ports:
+      - "3306:3306"
+    volumes:
+    - ./docker/db/data:/var/lib/mysql
+    - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+    # app_net:
+    #   ipv4_address: 172.16.238.10
+    #   ipv6_address: 2001:3984:3989::10
+    networks:
+      - app-net
+
   web:  # コンテナに名前をつける
     build: .  # Dockerfileがあるディレクトリへのパス
     volumes:
       - .:/code  # ホストPCのカレントディレクトリとコンテナ内のcodeディレクトリを同期させる
     ports:
       - "8000:8000"
+    # volumes:
+    #   - .:/www/boatcalendar
     env_file: docker-compose.env
     command: python manage.py runserver 0.0.0.0:8000
+    networks:
+      - app-net
+    # app_net:
+    #   ipv4_address: 172.16.238.11
+    #   ipv6_address: 2001:3984:3989::11
+
+
+
+
+networks:
+  app-net:
+    driver: bridge
+

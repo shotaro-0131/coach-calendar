@@ -3,6 +3,7 @@ from django import forms
 from django.contrib.auth.forms import(
     AuthenticationForm
 )
+from .models import Plan
 
 class LoginForm(AuthenticationForm):
     #ログオンフォームの定義
@@ -11,6 +12,21 @@ class LoginForm(AuthenticationForm):
         for fields in self.fields.values():
             fields.widget.attrs['class'] = 'form-control'
             fields.widget.attrs['placeholder']= fields.label
+
+class MenuForm(forms.Form):
+    name = forms.CharField(
+        label='メニュー', max_length=50,
+        required=False
+    )
+    isRepeat = forms.BooleanField(
+        label='毎週'
+    )
+  
+    def save(self):
+        name = self.cleaned_data.get('name')
+        print(name ,"ee")
+        p = Plan(year=2020,month=2, day=1, menu=name, isRow=True)
+        p.save()
 
 class SignUpForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput)
