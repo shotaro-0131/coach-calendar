@@ -7,7 +7,6 @@
 {{ month_current | date:"Y年m月" }}
 {{ month_corrent.month }}
 {{ form.as_p |json_script:"hello-data" }}
-
 <a href="{% url 'month' month_next.year month_next.month %}">次月</a>
 
     <table class="table">
@@ -26,8 +25,9 @@
                         <td class="day table-success">
                             {% else %}
                         <td class="day" >
+                            
                     {% endif %}
-
+                    <div>
                 {% if month_current.month != day.month %}
                     {{ day | date:"m/d" }}
                 {% else %}
@@ -39,7 +39,7 @@
                     {% endfor %}
                     <!-- <span>{{ view.request.user.username }}</span> -->
                 {% endif %}
-
+            </div>
                 </td>
                 {% endfor %}
             </tr>
@@ -55,25 +55,25 @@
     <script>
 
         
-        const hoge = document.getElementsByClassName('day');
+        const hoge = document.getElementsByClassName('menu');
         var value = JSON.parse(document.getElementById('hello-data').textContent);
 
             for (var i = 0; i < hoge.length; i++) {
-                $(".day").eq(i).click(function() {
+                $(".menu").eq(i).click(function() {
                     if(!$(this).hasClass("attend")){
-                        $(this ,"ul").append('<div class="user">'+value+'</div>');
-                        $(this ,"ul").append('<div class="remove">削除</div>');
+                        $(this ,"ul").append('<div class="user">'+"参加できます!"+'</div>');
+                        // $(this ,"ul").append('<div class="remove">削除</div>');
                         $(this).addClass("attend")
 
                         // var h = document.getElementsByClassName('remove');
                         // $(".day").click(function() {
-                        $(this ,"ul").find(".remove").click(function(e) {
-                            e.stopPropagation();
-                            console.log($(this).parent('td'))
-                            console.log($(this).parent().find('.attend'))
-                            $(this).parent('td').removeClass("attend")
-                            $(this).parent('td').children().remove();
-                        })
+                        // $(this ,"ul").find(".remove").click(function(e) {
+                        //     e.stopPropagation();
+                        //     console.log($(this).parent('td'))
+                        //     console.log($(this).parent().find('.attend'))
+                        //     $(this).parent('td').removeClass("attend")
+                        //     $(this).parent('td').children().remove();
+                        // })
                 }
                     else{
                         // $(".remove").click(function() {
@@ -90,8 +90,8 @@
                 
 
                         //     })})
-                        // $(this ,"ul").children().remove();
-                        // $(this).removeClass("attend")
+                        $(this ,"ul").children().remove();
+                        $(this).removeClass("attend")
                     
                     }
                 })

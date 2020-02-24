@@ -11,10 +11,6 @@ services:
       MYSQL_USER: 'P@ssw0rd'
       TZ: "Asia/Tokyo"
     restart: 'always'
-    expose:
-      - '3306'
-    ports:
-      - "3306:3306"
     volumes:
     - ./docker/db/data:/var/lib/mysql
     - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf

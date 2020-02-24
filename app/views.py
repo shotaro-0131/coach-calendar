@@ -7,24 +7,26 @@ from django.contrib.auth.views import(
     LoginView, LogoutView
 )
 from . forms import LoginForm, MenuForm
-
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
- 
-class SignUpView(generic.CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy('login')
-    template_name = 'signup.html'
-# Create your views here.
 
+# class SignUpView(generic.CreateView):
+#     form_class = UserCreationForm
+#     success_url = reverse_lazy('login')
+#     template_name = 'signup.html'
+# Create your views here.
+@ensure_csrf_cookie 
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('login')
     else:
         form = SignUpForm()
 
@@ -33,48 +35,48 @@ def signup(request):
 def index(request):
     return render(request, 'month.html', {'user_name': "村田"})
 
+
+class CreatMenu(generic.CreateView, mixins.MonthCalendarMixin):
+    form_class = MenuForm
+    
+@method_decorator(login_required , name="dispatch")
 class MonthCalendar(mixins.MonthCalendarMixin, mixins.PlanMixin, generic.FormView):
     """月間カレンダーを表示するビュー"""
     template_name = 'month.html'
     form_class = MenuForm
-    
-
     status_code = 200
     
-    success_url = 'index'
+    success_url = 'month'
+
     def post(self, request, **kwargs):
+        print('kore',request.session)
         if request.method == 'POST':
             form_class = MenuForm(request.POST)
 
             form_class.is_valid()
-            print("aa")
             form_class.save()
             context = super().get_context_data(**kwargs)
             calendar_context = self.get_month_calendar()
             context.update(calendar_context)
-            return render(request,'index.html',context)
-   
-        # new logic!
-            # template_name.save()
+            return redirect('month')
 
     def get_context_data(self, **kwargs):
-        print('33')
-        # print(all_entries,"1")
         context = super().get_context_data(**kwargs)
         calendar_context = self.get_month_calendar()
         plans = self.get_plan(calendar_context)
+        print("ii",plans)
 
-        print(plans)
         context.update(calendar_context)
         context.update(plans)
         return context
+    # def dispatch(self, *args, **kwargs):
+    #     return redirect('login')
 
 class Planing(mixins.AdminCalendarMixin, generic.TemplateView):
     """月間カレンダーを表示するビュー"""
     template_name = 'month.html'
 
     def get_context_data(self, **kwargs):
-        print('22')
         self.create_menu()
         context = super().get_context_data(**kwargs)
         calendar_context = super().get_month_calendar()
@@ -92,6 +94,5 @@ class Logout(LoginRequiredMixin, LogoutView):
     template_name = 'login.html'
  
  
-# def index(request):
-    
-#     return render(request, 'accounts/index.html')
+# def logout(request):
+#     return render(request, 'login.html')

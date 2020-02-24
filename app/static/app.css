@@ -15,8 +15,8 @@ header ul li {
 }
 
 .day{
-    /* width: 50px;
-    height: 50px;
+    /* width: 500px;
+    height: 500px;
     margin: 0px; */
     
 }
@@ -101,7 +101,7 @@ header ul li {
   }
 
   .menu {
-    position: absolute;
+    /* position: absolute; */
     margin: 0px;
-    background-color: rgba(0,0,0,.8);
+    /* background-color: #fff; */
   }
