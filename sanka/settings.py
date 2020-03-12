@@ -90,7 +90,7 @@ DATABASES = {
         'NAME': 'calendar',
         'USER': 'root',
         'PASSWORD': '',
-        'HOST': 'sample-mysql',
+        'HOST': 'mysql',
         'PORT':'3306',
         'OPTIONS': {
             # 'init_command': "SET sql_model='STRICT_TRANS_TABLES'",

@@ -1,6 +1,6 @@
 # Docker Hubにあるpythonイメージをベースにする
 FROM python:3.6-alpine
-
+# FROM nginx:latest
 # 環境変数を設定する
 ENV PYTHONUNBUFFERED 1
 
@@ -12,9 +12,12 @@ WORKDIR /code
 # ホストPCにあるrequirements.txtをコンテナ内のcodeディレクトリにコピーする
 # コピーしたrequirements.txtを使ってパッケージをインストールする
 ADD requirements.txt /code/
-RUN apk --update-cache add python3-dev postgresql-client \
-    gcc g++ libc-dev linux-headers postgresql-dev
+RUN apk --update-cache add python3-dev  \
+    gcc g++ libc-dev linux-headers 
 # RUN apk add mariadb-client
+# RUN apk add libssl-dev
+# RUN apk add libpcre3-dev
+
 RUN apk add python3-dev
 RUN apk add --update mariadb-dev
 RUN apk add mysql-client mysql-dev
