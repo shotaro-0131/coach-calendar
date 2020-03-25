@@ -33,7 +33,7 @@ services:
       - app-net
     depends_on:
       - mysql
-    command: sh ./wait-for-it.sh mysql python manage.py runserver 0.0.0.0:8000
+    # command: sh ./wait-for-it.sh mysql python manage.py runserver 0.0.0.0:8000
     # command: python manage.py runserver 0.0.0.0:8000
              
     # app_net:

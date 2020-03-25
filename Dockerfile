@@ -28,3 +28,8 @@ RUN pip install -r requirements.txt
 
 # ホストPCの各種ファイルをcodeディレクトリにコピーする
 ADD . /code/
+CMD ["pip", "list"]
+CMD ["nginx", "-g", "daemon off;","-c","/etc/nginx/nginx.conf"]
+# CMD ["uwsgi", "--http", ":8000",  "--wsgi-file", "sanka.wsgi"]
+# CMD ["uwsgi","--ini","uwsgi.ini"]
+CMD ["uwsgi","--http", ":8000", "--module", "sanka.wsgi"]
