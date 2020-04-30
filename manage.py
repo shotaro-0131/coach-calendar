@@ -21,4 +21,5 @@ def main():
 if __name__ == '__main__':
     main()
     import pymysql
+    import psycopg2
     # pymysql.install_as_MySQLdb()

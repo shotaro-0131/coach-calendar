@@ -1,0 +1,1 @@
+web: gunicorn sanka.wsgi --log-file -

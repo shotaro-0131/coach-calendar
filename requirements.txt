@@ -3,3 +3,7 @@ django-user-sessions
 uwsgi
 PyMySQL
 mysqlclient
+dj_database_url
+psycopg2
+whitenoise 
+gunicorn

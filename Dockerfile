@@ -21,6 +21,7 @@ RUN apk --update-cache add python3-dev  \
 RUN apk add python3-dev
 RUN apk add --update mariadb-dev
 RUN apk add mysql-client mysql-dev
+RUN apk add postgresql-dev
 RUN pip install -r requirements.txt 
 # RUN apk del g++ mariadb-dev
 # RUN apk add --no-cache mariadb-client-libs
@@ -28,8 +29,13 @@ RUN pip install -r requirements.txt
 
 # ホストPCの各種ファイルをcodeディレクトリにコピーする
 ADD . /code/
-CMD ["pip", "list"]
-CMD ["nginx", "-g", "daemon off;","-c","/etc/nginx/nginx.conf"]
-# CMD ["uwsgi", "--http", ":8000",  "--wsgi-file", "sanka.wsgi"]
-# CMD ["uwsgi","--ini","uwsgi.ini"]
-CMD ["uwsgi","--http", ":8000", "--module", "sanka.wsgi"]
+CMD ["pip", "install", "--upgrade", "pip"]
+#CMD ["gunicorn", "sanka.wgsi", "--log-file"]
+# heroku
+CMD ["python", "manage.py", "migrate"]
+CMD gunicorn --bind 0.0.0.0:$PORT sanka.wsgi
+
+#aws
+# CMD ["nginx", "-g", "daemon off;","-c","/etc/nginx/nginx.conf"]
+
+# CMD ["uwsgi","--http", ":80", "--module", "sanka.wsgi"]
