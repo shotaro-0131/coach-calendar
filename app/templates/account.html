@@ -1,0 +1,30 @@
+{% extends "fand.html" %}
+ 
+{% block content %}
+ 
+{% if form.errors %}
+<p></p>
+{% endif %}
+ 
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
+ 
+<form method="post" action="{% url 'account' %}">
+{% csrf_token %}
+{{ form.as_p }}
+ {% for error in form.non_field_errors %}
+
+  <div class="alert alert-danger" role="alert">
+    <p>{{ error }}</p>
+  </div>
+{% endfor %}
+<input type="submit" value="決定" />
+<input type="hidden" name="userId" value="{{ view.request.user.id }}" />
+</form>
+{% endblock %}

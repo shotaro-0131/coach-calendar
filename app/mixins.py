@@ -77,10 +77,6 @@ class PlanMixin:
         return self.to_dict(all_entries)
 
     def to_dict(self, entries):
-        # plan_data = {
-        #     'menu': list(entries.values_list('menu', flat=True)),
-        #     'plan_day': list(entries.values_list('day', flat=True)),
-        # }
         p = []
         for e in entries:
             p.append({"menu":e.menu, "day":e.day})

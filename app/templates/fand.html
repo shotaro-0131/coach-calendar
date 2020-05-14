@@ -30,7 +30,14 @@
             <a class="btn btn-primary" href="{% url 'signup' %}">サインアップ</a>
         {% endif %}
 
-        <a class="btn user-info" href="{% url 'login' %}">{{ view.request.user.username }}</a>
+        <a class="btn user-info" href="{% url 'account' %}">
+          {% if view.request.user.family_name != None %}
+          {{ view.request.user.family_name }} {{ view.request.user.first_name }}
+          {% endif %}
+          {% if view.request.user.family_name == None %}
+          {{ view.request.user.username }}
+          {% endif %}
+        </a>
 
       </div>
  

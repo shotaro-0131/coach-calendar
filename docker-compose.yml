@@ -11,7 +11,7 @@ services:
       MYSQL_USER: 'P@ssw0rd'
       TZ: "Asia/Tokyo"
     restart: 'always'
-    command: 'python manage.py runserver 8000'
+    env_file: docker-compose.env
     volumes:
     - ./docker/db/data:/var/lib/mysql
     - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
@@ -19,14 +19,15 @@ services:
       - app-net
 
   web:  # コンテナに名前をつける
-    build: .  # Dockerfileがあるディレクトリへのパス
+    build: 
+      context: .  # Dockerfileがあるディレクトリへのパス
+      #dockerfile: Dockerfile_${DOCKER_FILE_ENV}
     volumes:
       - .:/code  # ホストPCのカレントディレクトリとコンテナ内のcodeディレクトリを同期させる
     ports:
       - "8000:8000"
-    # volumes:
-    #   - .:/www/boatcalendar
     env_file: docker-compose.env
+    command: heroku_env.sh
     networks:
       - app-net
     depends_on:
@@ -36,9 +37,11 @@ services:
     build: .
     image: nginx:1.13.5-alpine
     container_name: nginx1
+    env_file: docker-compose.env
     depends_on:
       - web
     tty: true
+    #command: sh ./local_env.sh
     ports:
       - 80:80
     volumes:

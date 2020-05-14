@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import SignUpForm
+from .forms import SignUpForm, EditProf
 from . import mixins
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -93,6 +93,20 @@ class Logout(LoginRequiredMixin, LogoutView):
     #ログアウトページ
     template_name = 'login.html'
  
+
+class Account(generic.FormView):
+    template_name = 'account.html'
+    form_class=EditProf
+    status_code = 200
+    
+    success_url = 'month'
+    def post(self, request, **kwargs):
+        print('kore',request.session)
+        if request.method == 'POST':
+            form_class = EditProf(request.POST)
+
+            form_class.is_valid()
+            form_class.request = request
+            form_class.save(request)
+            return redirect('month')
  
-# def logout(request):
-#     return render(request, 'login.html')

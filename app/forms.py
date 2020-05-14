@@ -3,7 +3,10 @@ from django import forms
 from django.contrib.auth.forms import(
     AuthenticationForm
 )
-from .models import Plan
+from .models import Plan, MyUser
+
+from django.contrib.sessions.models import Session
+
 
 class LoginForm(AuthenticationForm):
     #ログオンフォームの定義
@@ -58,3 +61,32 @@ class SignUpForm(forms.Form):
         new_user = User.objects.create_user(username = username)
         new_user.set_password(password)
         new_user.save()
+
+class EditProf(forms.ModelForm):
+    # username = forms.CharField(widget=forms.TextInput)
+    # enter_password = forms.CharField(widget=forms.TextInput)
+    #equest = None
+    class Meta:
+        model = MyUser
+        fields = ['familyName', 'firstName']
+
+    def save(self, request):
+
+        firstName = self.cleaned_data.get('firstName')
+        familyName = self.cleaned_data.get('familyName')
+        userId = request.POST.get('userId', None)
+        user = User.objects.filter(id=userId).first()
+        user.first_name = firstName
+        user.family_name = familyName
+        user.save()
+        myuser = MyUser.objects.filter(user_id = userId)
+        if ((not myuser.exists() ) and user.exists()):
+            new_user = MyUser().create_user(firstName = firstName, familyName=familyName, userId=userId)
+            new_user.save()
+        else:
+            modifid_user = myuser.first()
+            modifid_user.familyName = familyName
+            modifid_user.firstName = firstName
+            modifid_user.save()
+
+        

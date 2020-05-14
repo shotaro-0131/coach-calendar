@@ -26,6 +26,7 @@ SECRET_KEY = 'wy^oh0xp@mvfr!owf%(mu-ic135gc+19gxufb9e(z-)*2_@33k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 ALLOWED_HOSTS = ["*"]
 
 
@@ -87,20 +88,20 @@ WSGI_APPLICATION = 'sanka.wsgi.application'
 # }
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'calendar',
-    #     'USER': 'root',
-    #     'PASSWORD': '',
-    #     'HOST': 'mysql',
-    #     'PORT':'3306',
-    #     'OPTIONS': {
-    #         # 'init_command': "SET sql_model='STRICT_TRANS_TABLES'",
-    #     }
-
-    # }
-
     'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'calendar',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'mysql',
+        'PORT':'3306',
+        'OPTIONS': {
+            # 'init_command': "SET sql_model='STRICT_TRANS_TABLES'",
+        }
+
+    },
+
+    'heroku': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'name',
         'USER': 'user',
